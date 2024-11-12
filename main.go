@@ -31,5 +31,8 @@ func main() {
 	fmt.Print("Enter number of tickets: ");
 	fmt.Scan(&userTickets);
 
-	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v", firstName, lastName, userTickets, email);
+	remTickets = remTickets - userTickets;
+
+	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email);
+	fmt.Printf("%v tickets remaining for %v\n", remTickets, confName);
 }
