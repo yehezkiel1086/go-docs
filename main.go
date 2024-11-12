@@ -17,8 +17,9 @@ func main() {
 	var userTickets uint;
 
 	// ask user for their name
+	fmt.Print("Enter username: ");
+	fmt.Scan(&username);
 
-	username = "Ben";
 	userTickets = 2;
 	fmt.Printf("User %v booked %v tickets.\n", username, userTickets);
 }
