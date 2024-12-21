@@ -3,7 +3,7 @@
 Golang tutorial walkthrough for college assignment <br />
 By: Yehezkiel Wiradhika (5025201086) - PBKK D
 
-## Current Progress
+## Current Progress (Completed)
 
 ![Progress](/assets/progress.png)
 
