@@ -1,12 +1,28 @@
 # Golang Tutorial Walkthrough
 
-Golang tutorial walkthrough for college assignment <br />
-By: Yehezkiel Wiradhika (5025201086) - PBKK D
+Notes and scripts, basically everything about Golang
 
-## Current Progress (Completed)
+## Golang Concepts
 
-![Progress](/assets/progress.png)
+- Data Types
+  - Strings, Ints, & Booleans
+  - Arrays & Slices
+  - Maps, Structs
+- Variables & Constants
+- Formatted Output
+- User Input: Get and Validate
+- Pointers
+- Scope Rules
+- Control Flow
+  - Loops
+  - If-else & Switch
+- Encapsulate logic
+  - Functions
+- Code organization
+  - Packages
+- Make our app faster..
+  - Goroutines
 
-## Source
+## Sources
 
-[Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
+- [Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
