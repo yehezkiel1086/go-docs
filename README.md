@@ -73,3 +73,4 @@ Golang notes, scripts, small projects, and solutions from several sources.
 ## Sources
 
 - [Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
+- https://go.dev/doc/articles/wiki/
