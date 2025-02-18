@@ -63,6 +63,13 @@ Notes and scripts, basically everything about Golang
   go run main.go
   ```
 
+## Data Types in Go
+
+- You need to tell Go compiler, the data type when declaring the variable
+  - More robust, reduces the likelihood of errors
+  - Helps developers to catch type mismatches sooner (at compile time)
+- Type Inference: BUT, Go can infer the type when you assign a value
+
 ## Sources
 
 - [Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
