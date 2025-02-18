@@ -44,6 +44,25 @@ Notes and scripts, basically everything about Golang
   - Faster than intepreted languages like Python
   - Consistent across different OS
 
+## Structure of Go file
+
+- All golang code must belong to a **package**
+- The first statement in Go file must be "package ..."
+- Go programs are organized into packages
+- Go's standard library, provides different core packages to use
+- A package is a collection of source files
+
+## Golang CLI Commands
+
+- Create new module
+  ```sh
+  go mod init <module_name>
+  ```
+- Compiling and running go files
+  ```sh
+  go run main.go
+  ```
+
 ## Sources
 
 - [Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
