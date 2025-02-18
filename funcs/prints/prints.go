@@ -1,8 +1,10 @@
-package main
+package funcs
 
 import "fmt"
 
-func main() {
+func Prints() {
+	fmt.Println("Print Functions:")
+
 	// single line print
 	fmt.Print("Hello ")
 
