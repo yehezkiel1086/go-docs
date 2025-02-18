@@ -8,7 +8,7 @@ func main() {
 	var remainingTickets uint8 = 50
 
 	// print data types
-	fmt.Printf("Data Types: conferenceName is %T, remainingTickets is %T, conferenceName is %T\n\n", conferenceName, remainingTickets, conferenceTickets)
+	fmt.Printf("Data Types:\n- conferenceName is %T\n- remainingTickets is %T\n- conferenceName is %T\n\n", conferenceName, remainingTickets, conferenceTickets)
 
 	// welcome message
 	fmt.Printf("Welcome to %v!\n", conferenceName)
@@ -18,7 +18,17 @@ func main() {
 	fmt.Printf("Total tickets: %v\nRemaining tickets: %v\n\n", conferenceTickets, remainingTickets)
 
 	// ask user for their name
-	var userName string = "Tom"
+	var userName string = "John Doe"
+	var email string = "johndoe@gmail.com"
 	var userTickets int = 2
-	fmt.Printf("%v booked %v tickets.\n\n", userName, userTickets)
+
+	fmt.Printf("Enter your name: ")
+	fmt.Scan(&userName)
+
+	fmt.Printf("Enter your email: ")
+	fmt.Scan(&email)
+
+	fmt.Printf("\n%v booked %v tickets.\n", userName, userTickets)
+
+	fmt.Printf("confirmation email sent at %v.\n\n", email)
 }
