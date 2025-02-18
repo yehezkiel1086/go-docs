@@ -58,9 +58,17 @@ Golang notes, scripts, small projects, and solutions from several sources.
   ```sh
   go mod init <module_name>
   ```
-- Compiling and running go files
+- Compiling go script
   ```sh
-  go run main.go
+  go build -o <compiled_binary> <script.go>
+  ```
+- Run compiled go binary
+  ```sh
+  ./<compiled_binary>
+  ```
+- Running `.go` script without compilation file output
+  ```sh
+  go run <script.go>
   ```
 
 ## Data Types in Go
