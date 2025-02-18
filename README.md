@@ -23,6 +23,27 @@ Notes and scripts, basically everything about Golang
 - Make our app faster..
   - Goroutines
 
+## What is Go / Golang?
+
+- Programming language developed at Google in 2007, Open-sourced in 2009
+- Multicore processors, cloud infra, big networked computation clusters became common (infras became scalable, distributed, dynamic, more capacity)
+- Doing multiple tasks at once (**Concurrency**) -- Developers need to write code to prevent conflicts (when tasks run in parallel), complex code, expensive & slow (therefore Golang comes). Programming languages with built in concurrency mechanisms: C++, Java, Golang. Without: Python, Nodejs
+- Go was designed to run on multiple cores and built to support concurrency
+- Concurrency in Go is cheap and easy
+- Go is good for performant apps, run on scaled and distributed systems.
+
+## Characteristics of Go
+
+- Combines both **simplicity and readable** syntax of dynamically typed language like Python with the **Efficiency and safety** of a lower-level, statically typed language like C++
+- For Server-side or Backend Language (Microservices, web apps, database services)
+- Technologies written in golang: Docker, HashiCorp Vault, Kubernetes, CockroachDB, etc
+- Simple Syntax: Easy to learn, read and write code
+- Fast build time, start up and run
+- Requires fewer resources
+- Compiles into a single binary (machine code)
+  - Faster than intepreted languages like Python
+  - Consistent across different OS
+
 ## Sources
 
 - [Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
