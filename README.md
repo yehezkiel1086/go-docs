@@ -1,6 +1,6 @@
-# Golang Tutorial Walkthrough
+# Golang Docs
 
-Notes and scripts, basically everything about Golang
+Golang notes, scripts, small projects, and solutions from several sources.
 
 ## Golang Concepts
 
