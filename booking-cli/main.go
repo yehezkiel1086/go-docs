@@ -3,6 +3,7 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -20,6 +21,8 @@ type UserData struct {
 	tickets uint8
 }
 
+var wg = sync.WaitGroup{}
+
 func main() {
 	confName = "Go Conference" // syntactic sugar
 
@@ -35,20 +38,23 @@ func main() {
 	// could also be like this:
 	// var bookings = [50]string{"Nana", "Nicole", "Peter"}
 
-	for {
-		firstName, lastName, userEmail, userTickets := getUserInput()
+	firstName, lastName, userEmail, userTickets := getUserInput()
 
-		isValidInput := helper.ValidateInput(firstName, lastName, userEmail, userTickets, remTickets)
+	isValidInput := helper.ValidateInput(firstName, lastName, userEmail, userTickets, remTickets)
 
-		if isValidInput {
-			bookTicket(userTickets, firstName, lastName, userEmail)
-			go sendTicket(userTickets, firstName, lastName, userEmail)
-			if remTickets == 0 {
-				fmt.Println("Ticket is sold out. Come back next year!")
-				break
-			}
+	if isValidInput {
+		bookTicket(userTickets, firstName, lastName, userEmail)
+
+		wg.Add(1)
+		go sendTicket(userTickets, firstName, lastName, userEmail)
+
+		if remTickets == 0 {
+			fmt.Println("Ticket is sold out. Come back next year!")
+			// break
 		}
 	}
+
+	wg.Wait()
 }
 
 func greetUsers() {
@@ -119,4 +125,5 @@ func sendTicket(tickets uint8, firstName string, lastName string, email string) 
 	fmt.Println("#################")
 	fmt.Printf("Sending ticket:\n%v to email address %v\n", ticket, email)
 	fmt.Println("#################")
+	wg.Done()
 }
