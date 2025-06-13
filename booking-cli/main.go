@@ -3,13 +3,13 @@ package main
 import (
 	"booking-app/helper"
 	"fmt"
-	"strings"
+	"strconv"
 )
 
 var confName string
 const confTickets uint8 = 50
 var remTickets uint8 = 50
-var bookings []string
+var bookings = make([]map[string]string, 0)
 // slice
 // var bookings []string
 
@@ -52,8 +52,7 @@ func greetUsers() {
 func getFirstnames() []string {
 	firstNames := []string{}
 	for _, booking := range bookings {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 
 	return firstNames
@@ -78,9 +77,16 @@ func getUserInput() (string, string, string, uint8) {
 }
 
 func bookTicket(userTickets uint8, firstName string, lastName string, userEmail string) {
+	// create a map for user
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = userEmail
+	userData["tickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+	bookings = append(bookings, userData) // add element to slice
 	remTickets -= userTickets
 	// bookings[0] = userName // add element to array
-	bookings = append(bookings, firstName + " " + lastName) // add element to slice
 
 	// fmt.Printf("\nWhole array: %v\n", bookings)
 	// fmt.Printf("Array type: %T\n", bookings)
