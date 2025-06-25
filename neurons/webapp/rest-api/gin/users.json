@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "first_name": "Benjamin",
+    "last_name": "Franklin",
+    "age": 48,
+    "job": "politician"
+  },
+  {
+    "id": 2,
+    "first_name": "John",
+    "last_name": "Doe",
+    "age": 30,
+    "job": "unknown"
+  },
+  {
+    "id": 3,
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "age": 30,
+    "job": "unknown"
+  }
+]
