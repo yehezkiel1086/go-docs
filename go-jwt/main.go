@@ -17,6 +17,7 @@ func main() {
 	router := gin.Default()
 
   router.POST("/signup", controllers.Signup)
+  router.POST("/login", controllers.Login)
 
   router.Run() // by default: listen and serve on 0.0.0.0:8080
 }
