@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gin-jwt-test/controllers"
 	"gin-jwt-test/setup"
 
 	"github.com/gin-gonic/gin"
@@ -8,16 +9,15 @@ import (
 
 func init() {
   setup.InitEnv()
+  setup.MigrateDB()
 }
 
 func main() {
 	r := gin.Default()
 
-  r.GET("/ping", func(c *gin.Context) {
-    c.JSON(200, gin.H{
-      "message": "pong",
-    })
-  })
+  pub := r.Group("/api") // public routes
+
+  pub.POST("/register", controllers.Register)
 
   r.Run() // listen and serve on 0.0.0.0:<PORT>
 }
