@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func Register(c *gin.Context) {
+func Authenticate(c *gin.Context) {
 	// connect DB
 	db, err := setup.ConnDB()
 
@@ -20,32 +20,39 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// validate user input
-	var user models.User
+	// check empty user input
+	var input models.UserInput
 
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Username and password are required",
 		})
 		return
 	}
 
-	// encrypt password
-	hashedPwd, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	// check username
+	var user, emptyUser models.User
+	db.First(&user, "username = ?", input.Username)
 
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Password encryption failed",
+	if user == emptyUser {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid credentials",
 		})
 		return
 	}
 
-	user.Password = string(hashedPwd)
+	// check password
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid credentials",
+		})		
+		return
+	}
 
-	// create new user
-	db.Create(&user)
+	// generate token
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "Registration successful!",
+	// auth success: return generated token
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Login successful!",
 	})
 }
