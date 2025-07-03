@@ -15,11 +15,13 @@ func init() {
 func main() {
 	r := gin.Default()
 
-  pub := r.Group("/api") // public routes
+  pb := r.Group("/api") // public routes
 
-  pub.POST("/roles", controllers.CreateNewRole)
-  pub.POST("/register", controllers.Register)
-  pub.POST("/login", controllers.Authenticate)
+  pb.GET("/users", controllers.GetAllUsers)
+  pb.GET("/users/:user", controllers.GetUserByUsername)
+  pb.POST("/roles", controllers.CreateNewRole)
+  pb.POST("/register", controllers.Register)
+  pb.POST("/login", controllers.Authenticate)
 
   r.Run() // listen and serve on 0.0.0.0:<PORT>
 }

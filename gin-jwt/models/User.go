@@ -48,3 +48,9 @@ type LoginInput struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
+type UserOutput struct {
+	ID        uuid.UUID `json:"id" binding:"required" gorm:"type:uuid;default:uuid_generate_v4();primaryKey"`
+	Username string `json:"username" binding:"required"`
+	Role string `json:"role" binding:"required" gorm:"size:255;not null;unique"`
+}
