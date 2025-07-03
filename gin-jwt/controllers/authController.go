@@ -65,7 +65,7 @@ func Authenticate(c *gin.Context) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	jwtKey := os.Getenv("REFRESH_TOKEN")
+	jwtKey := os.Getenv("ACCESS_TOKEN")
 
 	tokenString, err := token.SignedString([]byte(jwtKey))
 	if err != nil {
@@ -77,10 +77,10 @@ func Authenticate(c *gin.Context) {
 
 	// Set token string ke dalam cookie response
 	maxAge := 1000 * 60 * 5
-	c.SetCookie("jwt_token", tokenString, maxAge, "/api", "localhost", false, true)
+	c.SetCookie("jwt_token", tokenString, maxAge, "/api", "127.0.0.1:3500", false, true)
 
 	// auth success: return generated token
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Login successful!",
+		"jwt_token": tokenString,
 	})
 }
