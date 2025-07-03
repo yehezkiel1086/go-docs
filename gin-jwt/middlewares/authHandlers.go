@@ -2,11 +2,13 @@ package middlewares
 
 import (
 	"gin-jwt-test/models"
+	"gin-jwt-test/setup"
 	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"gorm.io/gorm"
 )
 
 func AuthHandler() gin.HandlerFunc {
@@ -16,8 +18,7 @@ func AuthHandler() gin.HandlerFunc {
 		if err != nil {
 			if err == http.ErrNoCookie {
 				c.JSON(http.StatusUnauthorized, gin.H{
-					// "error": "Unauthorized",
-					"error": err.Error(),
+					"error": "Unauthorized",
 				})
 			} else {
 				c.JSON(http.StatusBadRequest, gin.H{
@@ -40,8 +41,7 @@ func AuthHandler() gin.HandlerFunc {
 		if err != nil {
 			if err == jwt.ErrSignatureInvalid {
 				c.JSON(http.StatusUnauthorized, gin.H{
-					// "error": "Unauthorized",
-					"error": err.Error(),
+					"error": "Unauthorized",
 				})
 			} else {
 				c.JSON(http.StatusBadRequest, gin.H{
@@ -56,13 +56,14 @@ func AuthHandler() gin.HandlerFunc {
 		// check if token is still valid
 		if !token.Valid {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				// "error": "Unauthorized",
-					"error": err.Error(),
+				"error": "Unauthorized",
 			})
 
 			c.Abort()
 			return
 		}
+
+		c.Set("role_id", claims.RoleID)
 
 		c.Next()
 	}
@@ -70,6 +71,48 @@ func AuthHandler() gin.HandlerFunc {
 
 func AdminHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		//
+		// get role id
+		roleId := c.MustGet("role_id")
+
+		// connect db
+		db, err := setup.ConnDB()
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": "DB Connection failed",
+			})
+
+			c.Abort()
+			return
+		}
+
+		// get roles
+		var role models.Role
+
+		if err := db.Where("id = ?", roleId).First(&role).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"error": "Unauthorized",
+				})
+			} else {
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"error": err.Error(),
+				})
+			}
+			
+			c.Abort()
+			return
+		}
+
+		if role.Role != "admin" {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "Unauthorized",
+			})
+	
+			c.Abort()
+			return
+		}
+
+		c.Next()
 	}
 }
