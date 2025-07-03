@@ -17,7 +17,7 @@ type User struct {
 	Password string `json:"password" binding:"required" gorm:"size:255;not null"`
 
 	RoleID uuid.UUID `json:"role_id" binding:"required" gorm:"type:uuid"`
-	UserRole Role	`binding:"-" gorm:"foreignKey:RoleID"`
+	UserRole Role	`json:"-" binding:"-" gorm:"foreignKey:RoleID"`
 }
 
 type Role struct {
@@ -31,5 +31,6 @@ type Role struct {
 
 type UserInput struct {
 	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`	
+	Password string `json:"password" binding:"required"`
+	RoleID uuid.UUID `json:"role_id" binding:"required" gorm:"type:uuid"`
 }

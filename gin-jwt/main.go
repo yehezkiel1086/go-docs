@@ -17,6 +17,7 @@ func main() {
 
   pub := r.Group("/api") // public routes
 
+  pub.POST("/roles", controllers.CreateNewRole)
   pub.POST("/register", controllers.Register)
   pub.POST("/login", controllers.Authenticate)
 

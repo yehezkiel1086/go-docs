@@ -25,7 +25,7 @@ func Register(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Username and password are required",
+			"error": "Username, roleId and password are required",
 		})
 		return
 	}
@@ -43,10 +43,16 @@ func Register(c *gin.Context) {
 	input.Password = string(hashedPwd)
 
 	// create new user
-	db.Create(&models.User{
+	if err := db.Create(&models.User{
 		Username: input.Username,
 		Password: input.Password,
-	})
+		RoleID: input.RoleID,
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "User creation failed",
+		})
+		return
+	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Registration successful!",
