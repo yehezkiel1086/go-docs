@@ -21,7 +21,7 @@ func Register(c *gin.Context) {
 	}
 
 	// check empty user input
-	var input models.UserInput
+	var input models.RegisInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
