@@ -1,7 +1,9 @@
 package configs
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 )
@@ -11,9 +13,18 @@ func LoadEnv() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+}
 
-	// s3Bucket := os.Getenv("S3_BUCKET")
-	// secretKey := os.Getenv("SECRET_KEY")
+func getDBEnv() string {
+  // get .env values of DB
+	DB_HOST := os.Getenv("DB_HOST")
+	DB_USER := os.Getenv("DB_USER")
+	DB_PASSWORD := os.Getenv("DB_PASSWORD")
+	DB_NAME := os.Getenv("DB_NAME")
+	DB_PORT := os.Getenv("DB_PORT")
+	DB_SSL_MODE := os.Getenv("DB_SSL_MODE")
 
-	// now do something with s3 or whatever
+  dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v TimeZone=Asia/Jakarta", DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DB_SSL_MODE)
+
+  return dsn
 }
