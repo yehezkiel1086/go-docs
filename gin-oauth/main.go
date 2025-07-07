@@ -2,23 +2,27 @@ package main
 
 import (
 	"gin-oauth/configs"
-	"net/http"
+	"gin-oauth/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
 	configs.LoadEnv()
+	configs.MigrateDB()
 }
 
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello Gin OAuth!",
-		})
-	})
+	pb := r.Group("/api") // public routes
+
+	// authenticated routes
+  au := pb.Group("/v1")
+
+	// admin only routes
+	adm := au.Group("/admin")
+	adm.POST("/roles", controllers.CreateNewRole)
 
 	r.Run()
 }
