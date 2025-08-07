@@ -40,7 +40,6 @@ func KeyAccess() gin.HandlerFunc {
 	}
 }
 
-
 func main() {
 	r := gin.Default()
 

@@ -77,8 +77,3 @@ Golang notes, scripts, small projects, and solutions from several sources.
   - More robust, reduces the likelihood of errors
   - Helps developers to catch type mismatches sooner (at compile time)
 - Type Inference: BUT, Go can infer the type when you assign a value
-
-## Sources
-
-- [Golang Full Course for Beginners](https://www.youtube.com/watch?v=yyUHQIec83I&t=1s)
-- https://go.dev/doc/articles/wiki/
