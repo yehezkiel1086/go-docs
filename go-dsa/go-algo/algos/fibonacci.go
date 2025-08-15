@@ -1,5 +1,0 @@
-package algos
-
-func Fibonacci() {
-
-}
