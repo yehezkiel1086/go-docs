@@ -2,35 +2,22 @@
 
 Golang notes, scripts, small projects, and solutions from several sources.
 
-## Golang Concepts
-
-- Data Types
-  - Strings, Ints, & Booleans
-  - Arrays & Slices
-  - Maps, Structs
-- Variables & Constants
-- Formatted Output
-- User Input: Get and Validate
-- Pointers
-- Scope Rules
-- Control Flow
-  - Loops
-  - If-else & Switch
-- Encapsulate logic
-  - Functions
-- Code organization
-  - Packages
-- Make our app faster..
-  - Goroutines
-
 ## What is Go / Golang?
 
-- Programming language developed at Google in 2007, Open-sourced in 2009
+Go or also called Golang is a Programming Language developed by Google in 2007, Open-sourced in 2009. The people initially developed Go are Rob Pike, Roberrt Griesemer and Ken Thompson
+
+## Why Golang was created?
+
 - Multicore processors, cloud infra, big networked computation clusters became common (infras became scalable, distributed, dynamic, more capacity)
 - Doing multiple tasks at once (**Concurrency**) -- Developers need to write code to prevent conflicts (when tasks run in parallel), complex code, expensive & slow (therefore Golang comes). Programming languages with built in concurrency mechanisms: C++, Java, Golang. Without: Python, Nodejs
 - Go was designed to run on multiple cores and built to support concurrency
 - Concurrency in Go is cheap and easy
 - Go is good for performant apps, run on scaled and distributed systems.
+
+## What Golang is used for?
+
+- Server side scripting language, network based program, cross-platform app development, command line tools / utility
+- Examples of technologies built using Golang is Docker. Big companies like Uber, BBC, Facebook, Apple and Google use Golang
 
 ## Characteristics of Go
 
@@ -44,13 +31,15 @@ Golang notes, scripts, small projects, and solutions from several sources.
   - Faster than intepreted languages like Python
   - Consistent across different OS
 
-## Structure of Go file
+## Advantages of using Golang
 
-- All golang code must belong to a **package**
-- The first statement in Go file must be "package ..."
-- Go programs are organized into packages
-- Go's standard library, provides different core packages to use
-- A package is a collection of source files
+- Fun and easy to learn (very simple)
+- Extremely fast runtime process and compilation time
+- Concurrent programming (multi threads) support
+- Garbage collection (automatic memory management) support
+- Support in multiple OS platforms (Windows, Mac, Linux, Raspberry Pi, etc)
+- Complete dependency and tooling
+- Great community support. A lot of free and open source tools.
 
 ## Golang CLI Commands
 
@@ -70,10 +59,3 @@ Golang notes, scripts, small projects, and solutions from several sources.
   ```sh
   go run <script.go>
   ```
-
-## Data Types in Go
-
-- You need to tell Go compiler, the data type when declaring the variable
-  - More robust, reduces the likelihood of errors
-  - Helps developers to catch type mismatches sooner (at compile time)
-- Type Inference: BUT, Go can infer the type when you assign a value
