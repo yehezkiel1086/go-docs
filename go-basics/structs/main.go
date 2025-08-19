@@ -4,27 +4,32 @@ import "fmt"
 
 type Person struct {
 	Name string
-	Age uint8
+	Age  uint8
 }
 
-func (p *Person)changeName(name string) {
-	p.Name = name
+type Student struct {
+	Person Person // embedded struct
+	Major  string
+	GPA    float32
 }
 
-func (p Person)sayHello() {
-	fmt.Printf("Hello, %v\n", p.Name)
+func (s Student) String() string {
+	return fmt.Sprintf("Name: %s\nAge: %d\nMajor: %s\nGPA: %.2f", s.Person.Name, s.Person.Age, s.Major, s.GPA)
 }
 
-func (p Person)String() (string) {
-	return fmt.Sprintf("The name is %v, age is %v", p.Name, p.Age)
+func (s *Student) UpdateGPA(gpa float32) {
+	s.GPA = gpa
 }
 
 func main() {
-	p := Person{
-		Name: "Benjamin",
-		Age: 21,
+	s := &Student{
+		Person: Person{
+			Name: "Yehezkiel",
+			Age:  23,
+		},
+		Major:  "Computer Science",
+		GPA:    3.4,
 	}
-	p.sayHello()
-	p.changeName("Ben")
-	fmt.Println(p)
+	s.UpdateGPA(3.34)
+	fmt.Println(s)
 }
