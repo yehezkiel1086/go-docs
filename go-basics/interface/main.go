@@ -15,30 +15,6 @@ type ThreeDimension interface {
 	Volume() float64
 }
 
-type Rectangle struct {
-	Side float64
-}
-
-func (r Rectangle) Area() float64 {
-	return r.Side * r.Side
-}
-
-func (r Rectangle) Circumference() float64 {
-	return r.Side * 4
-}
-
-type Circle struct {
-	Radius float64
-}
-
-func (c Circle) Area() float64 {
-	return 3.14 * c.Radius * c.Radius
-}
-
-func (c Circle) Circumference() float64 {
-	return 2 * 3.14 * c.Radius
-}
-
 type Cube struct {
     Side float64
 }
@@ -55,20 +31,51 @@ func (c Cube) Circumference() float64 {
     return c.Side * 12
 }
 
+type Rectangle struct {
+	Side float64
+}
+
+func (s Rectangle) Area() float64 {
+	return s.Side * s.Side
+}
+
+func (s Rectangle) Circumference() float64 {
+	return 4 * s.Side
+}
+
+type Circle struct {
+	Radius float64
+}
+
+func (s Circle) Area() float64 {
+	return s.Radius * s.Radius * math.Pi
+}
+
+func (s Circle) Circumference() float64 {
+	return 2 * math.Pi * s.Radius
+}
+
 func main() {
-	var shape Geometry
-	shape = Rectangle{
+	var s Geometry = &Rectangle{
+		Side: 4,
+	}
+	var c Geometry = &Circle{
+		Radius: 7,
+	}
+	var cube ThreeDimension = &Cube{
 		Side: 10,
 	}
 
-	fmt.Printf("Area: %v, Circumference: %v\n\n", shape.Area(), shape.Circumference())
+	fmt.Println("Square:")
+	fmt.Printf("Area: %.2f\n", s.Area())
+	fmt.Printf("Circumference: %.2f\n\n", s.Circumference())
 
-	var object ThreeDimension
-	object = Cube{
-		Side: 10,
-	}
+	fmt.Println("Circle:")
+	fmt.Printf("Area: %.2f\n", c.Area())
+	fmt.Printf("Circumference: %.2f\n\n", c.Circumference())
 
-	fmt.Println("Luas :", object.Area())
-	fmt.Println("Keliling :", object.Circumference())
-	fmt.Println("volume : ", object.Volume())
+	fmt.Println("Cube:")
+	fmt.Printf("Area: %.2f\n", cube.Area())
+	fmt.Printf("Circumference: %.2f\n", cube.Circumference())
+	fmt.Printf("Volume: %.2f\n", cube.Volume())
 }
