@@ -4,8 +4,13 @@ import "fmt"
 
 func main() {
 	var name string
-	fmt.Printf("Enter your name: ")
-	fmt.Scanf("%s", name)
+	var age uint8
 
-	fmt.Printf("Welcome, %s", name)
+	fmt.Printf("Enter your name: ")
+	fmt.Scanf("%s\n", &name)
+
+	fmt.Printf("Enter your age: ")
+	fmt.Scanf("%d", &age)
+
+	fmt.Printf("Welcome, %v (%v)\n", name, age);
 }
