@@ -5,78 +5,73 @@ import (
 	"time"
 )
 
-func printSomething(something string) {
-	fmt.Println(something)
+func simpleRoutine() {
+	fmt.Println("Simple Routine:")
+
+	go func() {
+		fmt.Println("Simple Routine")
+	}()
+
+	fmt.Println("Routine start")
+	time.Sleep(time.Millisecond * 10)
+	fmt.Println("Routine end")
 }
 
-func simpleGoRoutine() {
-	fmt.Println("Simple Go Routine:")
-	fmt.Println("Function started")
+func indecisiveRoutine() {
+	fmt.Println("Indecisive Routine:")
 
-	go printSomething("Routine called")
+	go func() {
+		fmt.Println("Routine A")
+	}()
+	go func() {
+		fmt.Println("Routine B")
+	}()
 
-	fmt.Println("Before sleep")
-	time.Sleep(10 * time.Millisecond)
-	fmt.Println("Function stopped")
+	fmt.Println("Routine started")
+	time.Sleep(time.Millisecond * 10)
+	fmt.Println("Routine end")
 }
 
-func indecisiveRoutines() {
-	fmt.Println("Indecisive Routines:")
-	fmt.Println("Function started")
-
-	go printSomething("1st routine called")
-	go printSomething("2nd routine called")
-
-	time.Sleep(10 * time.Millisecond)
-	fmt.Println("Function stopped")
-}
-
-var start time.Time
-
-func init() {
-	start = time.Now()
-}
-
-func apiCallA() {
+func ApiCallA(start time.Time) {
 	time.Sleep(time.Millisecond * 100)
-	fmt.Println("API Call A runs at:", time.Since(start))
+	fmt.Println("API call A at:", time.Since(start))
 }
 
-func apiCallB() {
+func ApiCallB(start time.Time) {
 	time.Sleep(time.Millisecond * 100)
-	fmt.Println("API Call B runs at:", time.Since(start))
+	fmt.Println("API call B at:", time.Since(start))
 }
 
-func sequential() {
-	fmt.Println("Sequential:")
-	fmt.Println("Start time:", time.Since(start))
-	apiCallA()
-	apiCallB()
+func sequentialApiCall() {
+	fmt.Println("Sequential API call Begins:")
+	start := time.Now()
+	ApiCallA(start)
+	ApiCallB(start)
 
 	time.Sleep(time.Millisecond * 200)
-	fmt.Println("End time:", time.Since(start))
+	fmt.Println("Sequential API call ends at:", time.Since(start))
 }
 
-func concurrent() {
-	fmt.Println("Concurrent:")
-	fmt.Println("Start time:", time.Since(start))
-	go apiCallA()
-	go apiCallB()
+func concurrentApiCall() {
+	fmt.Println("Concurrent API call Begins:")
+	start := time.Now()
+	go ApiCallA(start)
+	go ApiCallB(start)
 
 	time.Sleep(time.Millisecond * 200)
-	fmt.Println("End time:", time.Since(start))
+	fmt.Println("Sequential API call ends at:", time.Since(start))
 }
 
-func sequentialVsConcurrent() {
-	sequential()
-	fmt.Println()
-	concurrent()
-}
+// from APICallA at time 111.1639ms
+// from APICallB at time 218.4708ms
+// from main function at time 420.4578ms
 
 func main() {
-	simpleGoRoutine()
+	simpleRoutine()
 	fmt.Println()
-	indecisiveRoutines()
+	indecisiveRoutine()
 	fmt.Println()
-	sequentialVsConcurrent()
+	sequentialApiCall()
+	fmt.Println()
+	concurrentApiCall()
 }
