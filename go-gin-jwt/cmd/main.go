@@ -33,14 +33,20 @@ func main() {
 	fmt.Println("Migration successful.")
 
 	// dependency injections
+	// user
 	userRepo := repository.InitUserRepository(db)
 	userService := service.InitUserService(userRepo)
 	userHandler := handler.InitUserHandler(userService)
+
+	// auth
+	authService := service.InitAuthService(userRepo)
+	authHandler := handler.InitAuthHandler(authService)
 
 	// routing
 	r, err := handler.InitRouter(
 		config.HTTP,
 		*userHandler,
+		*authHandler,
 	)
 	if err != nil {
 		panic(err)

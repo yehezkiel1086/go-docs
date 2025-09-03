@@ -25,3 +25,16 @@ func (ur *UserRepository) CreateUser(ctx context.Context, user *domain.User) (*d
 
 	return user, nil
 }
+
+func (ur *UserRepository) GetUserByUsername(ctx context.Context, username string) (*domain.User, error) {
+	var user *domain.User
+
+	// get user by username
+	db := ur.db.GetDB()
+
+	if err := db.Model(&domain.User{}).First(&user, "username = ?", username).Error; err != nil {
+		return &domain.User{}, err
+	}
+
+	return user, nil
+}
