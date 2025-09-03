@@ -22,7 +22,7 @@ type User struct {
 	// credentials
 	Username string `json:"username" gorm:"not null"`
 	Password string `json:"password" gorm:"not null"`
-	Role string `json:"role" gorm:"not null"`
+	Role Role `json:"role" gorm:"not null"`
 
 	// details
 	Fullname string `json:"fullname" gorm:"not null"`
