@@ -1,0 +1,9 @@
+# dev
+.env
+
+# binaries
+bin/
+
+# docker volumes
+data/
+servers.json
