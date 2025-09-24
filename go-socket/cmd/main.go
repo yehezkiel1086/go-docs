@@ -37,10 +37,15 @@ func main() {
 	userSvc := service.InitUserService(userRepo)
 	userHandler := handler.InitUserHandler(userSvc)
 
+	hubRepo := repository.InitHubRepository(db)
+	hubSvc := service.InitHubService(hubRepo)
+	hubHandler := handler.InitHubHandler(hubSvc)
+
 	// router config
 	r, err := handler.InitRouter(
 		conf.HTTP,
 		*userHandler,
+		*hubHandler,
 	)
 	if err != nil {
 		panic(err)
