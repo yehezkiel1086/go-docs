@@ -1,1 +1,6 @@
+# dev
 .env
+
+# docker volumes
+data/
+servers.json
