@@ -5,7 +5,7 @@ composedown:
 	docker compose down
 
 postgres:
-	docker exec -it postgres -U psql -b go_oauth
+	docker exec -it postgres psql -U postgres -b go_oauth
 
 run:
 	go run cmd/main.go

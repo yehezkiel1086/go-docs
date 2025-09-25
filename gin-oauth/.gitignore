@@ -1,5 +1,6 @@
 # dev
 .env
+ref/
 
 # docker volumes
 data/

@@ -25,6 +25,13 @@ func InitDB(ctx context.Context, conf *config.DB) (*DB, error) {
 	}, nil
 }
 
+func (d *DB) Migrate(dbs ...any) error {
+	if err := d.db.AutoMigrate(dbs...); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (d *DB) GetDB() *gorm.DB {
 	return d.db
 }
