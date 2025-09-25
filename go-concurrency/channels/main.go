@@ -1,28 +1,50 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+	"time"
+)
 
-func sayHelloTo(name string, msgs chan string) {
-	msgs <- fmt.Sprintf("Hello, %v", name)
+// channel as parameter
+func sayHello(msg chan string) {
+	fmt.Println(<-msg)
 }
 
-func printMessage(msgs chan string) {
-	fmt.Println(<-msgs)
+func printMessages() {
+	msg := make(chan string)
+
+	setMsg := func(name string) {
+		data := fmt.Sprintf("Hello, %v", name)
+		msg <- data
+	}
+
+	go setMsg("Benjamin")
+	go setMsg("Elizabeth")
+	go setMsg("Maria")
+
+	sayHello(msg)
+	sayHello(msg)
+	sayHello(msg)
 }
 
-func sayHelloChannels() {
-	names := []string{"Ben", "Andre", "Yehuda"}
-	msgs := make(chan string)
+func chanSync() {
+	runtime.GOMAXPROCS(1)
+	start := time.Now()
 
-	for _, item := range names {
-		go sayHelloTo(item, msgs)
-	}
+	fmt.Println("Main started at time", time.Since(start))
+	c := make(chan string)
+	go func() {
+		time.Sleep(time.Duration(10) * time.Millisecond)
+		fmt.Println("Hello from goroutine at time", time.Since(start))
+		c <- "Goroutine say hi"
+	}()
 
-	for i := 0; i < len(names); i++ {
-		printMessage(msgs)
-	}
+	fmt.Printf("Goroutine sent this: %v, at time %v\n", <-c, time.Since(start))
+	fmt.Println("Main ended at time", time.Since(start))
 }
 
 func main() {
-	sayHelloChannels()
+	// printMessages()
+	chanSync()
 }
