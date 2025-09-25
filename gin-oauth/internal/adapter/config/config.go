@@ -25,9 +25,10 @@ type (
 
 	DB struct {
 		Host string `json:"host"`
-		Name string `json:"name"`
 		Username string `json:"username"`
 		Password string `json:"password"`
+		Name string `json:"name"`
+		Port string `json:"port"`
 	}
 )
 
@@ -50,9 +51,10 @@ func InitConfig() (*Container, error) {
 
 	DB := &DB{
 		Host: os.Getenv("DB_HOST"),
-		Name: os.Getenv("DB_NAME"),
 		Username: os.Getenv("DB_USER"),
 		Password: os.Getenv("DB_PASS"),
+		Name: os.Getenv("DB_NAME"),
+		Port: os.Getenv("DB_PORT"),
 	}
 
 	return &Container{
