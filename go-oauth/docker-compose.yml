@@ -1,5 +1,4 @@
 services:
-
   postgres:
     image: postgres:17-alpine
     restart: always
@@ -12,11 +11,10 @@ services:
     volumes:
     - ./data:/var/lib/postgresql/data
     ports:
-    - '${DB_HOST}:5432:5432'
+    - '${DB_HOST}:${DB_PORT}:5432'
     container_name: postgres
-
   pgadmin4:
-    image: elestio/pgadmin
+    image: elestio/pgadmin:latest
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: ${ADMIN_EMAIL}

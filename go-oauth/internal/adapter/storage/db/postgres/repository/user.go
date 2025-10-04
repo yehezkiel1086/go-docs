@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"go-oauth2/internal/adapter/storage/postgres"
-	"go-oauth2/internal/core/domain"
+	"go-oauth/internal/adapter/storage/db/postgres"
+	"go-oauth/internal/core/domain"
 )
 
 type UserRepository struct {

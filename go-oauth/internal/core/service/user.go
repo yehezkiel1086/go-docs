@@ -2,9 +2,9 @@ package service
 
 import (
 	"context"
-	"go-oauth2/internal/core/domain"
-	"go-oauth2/internal/core/port"
-	"go-oauth2/internal/core/util"
+	"go-oauth/internal/core/domain"
+	"go-oauth/internal/core/port"
+	"go-oauth/internal/core/util"
 )
 
 type UserService struct {
@@ -17,7 +17,7 @@ func InitUserService(repo port.UserRepository) *UserService {
 	}
 }
 
-func (us *UserService) CreateUser(ctx context.Context, user *domain.User) (*domain.User, error) {
+func (us *UserService) Register(ctx context.Context, user *domain.User) (*domain.User, error) {
 	// hash password
 	hashedPwd, err := util.HashPassword(user.Password)
 	if err != nil {

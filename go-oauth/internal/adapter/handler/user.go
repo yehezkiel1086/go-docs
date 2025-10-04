@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"go-oauth2/internal/core/domain"
-	"go-oauth2/internal/core/port"
+	"go-oauth/internal/core/domain"
+	"go-oauth/internal/core/port"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,8 +19,8 @@ func InitUserHandler(svc port.UserService) *UserHandler {
 }
 
 type RegisterReq struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Email string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 func (uh *UserHandler) Register(c *gin.Context) {
@@ -28,25 +28,25 @@ func (uh *UserHandler) Register(c *gin.Context) {
 	var input *RegisterReq
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Username and password are required.",
+			"error": err.Error(),
 		})
-		return
+		return		
 	}
 
-	// create new user
-	_, err := uh.svc.CreateUser(c, &domain.User{
-		Username: input.Username,
+	// register user
+	_, err := uh.svc.Register(c, &domain.User{
+		Email: input.Email,
 		Password: input.Password,
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Username and password are required.",
+			"error": err.Error(),
 		})
 		return
 	}
 
 	// return response
 	c.JSON(http.StatusCreated, gin.H{
-		"message": "User registered successfully.",
+		"message": "user registered successfully",
 	})
 }

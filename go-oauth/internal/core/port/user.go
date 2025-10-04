@@ -2,7 +2,7 @@ package port
 
 import (
 	"context"
-	"go-oauth2/internal/core/domain"
+	"go-oauth/internal/core/domain"
 )
 
 type UserRepository interface {
@@ -10,5 +10,5 @@ type UserRepository interface {
 }
 
 type UserService interface {
-	CreateUser(ctx context.Context, user *domain.User) (*domain.User, error)	
+	Register(ctx context.Context, user *domain.User) (*domain.User, error)
 }

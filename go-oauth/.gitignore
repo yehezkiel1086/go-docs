@@ -1,7 +1,6 @@
 # dev
-.env
-ref/
+bin/
 
 # docker volumes
-data/
 servers.json
+data/
