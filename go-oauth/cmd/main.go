@@ -39,8 +39,15 @@ func main() {
 	userSvc := service.InitUserService(userRepo)
 	userHandler := handler.InitUserHandler(userSvc)
 
+	authSvc := service.InitAuthService(userRepo)
+	authHandler := handler.InitAuthHandler(authSvc)
+
 	// init router
-	r, err := handler.InitRouter(conf.App, *userHandler)
+	r, err := handler.InitRouter(
+		conf.App,
+		userHandler, 
+		authHandler,
+	)
 	if err != nil {
 		panic(err)
 	}

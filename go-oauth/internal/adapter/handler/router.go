@@ -13,13 +13,15 @@ type Router struct {
 
 func InitRouter(
 	conf *config.App,
-	userHandler UserHandler,
+	userHandler *UserHandler,
+	authHandler *AuthHandler,
 ) (*Router, error) {
 	r := gin.New()
 
 	// public routes
 	pb := r.Group("/api/v1")
 	pb.POST("/register", userHandler.Register)
+	pb.POST("/login", authHandler.Login)
 
 	// return router object
 	return &Router{r}, nil
