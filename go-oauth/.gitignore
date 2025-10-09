@@ -1,6 +1,0 @@
-# dev
-bin/
-
-# docker volumes
-servers.json
-data/
