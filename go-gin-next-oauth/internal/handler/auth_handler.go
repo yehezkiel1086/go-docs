@@ -13,10 +13,8 @@ type AuthHandler struct {
 	service *service.AuthService
 }
 
-func NewAuthHandler() *AuthHandler {
-	return &AuthHandler{
-		service: service.NewAuthService(),
-	}
+func NewAuthHandler(service *service.AuthService) *AuthHandler {
+	return &AuthHandler{service: service}
 }
 
 func (h *AuthHandler) GoogleLogin(c *gin.Context) {
@@ -31,14 +29,12 @@ func (h *AuthHandler) GoogleCallback(c *gin.Context) {
 		return
 	}
 
-	userInfo, token, err := h.service.HandleGoogleCallback(context.Background(), code)
+	_, token, err := h.service.HandleGoogleCallback(context.Background(), code)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	frontendRedirect := os.Getenv("HTTP_CLIENT_REDIRECT_URL") + "?token=" + token
-	c.Redirect(http.StatusTemporaryRedirect, frontendRedirect)
-
-	_ = userInfo // optional: log or save user
+	redirect := os.Getenv("HTTP_CLIENT_REDIRECT_URL") + "?token=" + token
+	c.Redirect(http.StatusTemporaryRedirect, redirect)
 }

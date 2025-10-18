@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"go-gin-next-oauth/internal/model"
+	"go-gin-next-oauth/internal/repository"
 	"go-gin-next-oauth/internal/util"
 	"io"
 	"net/http"
@@ -11,13 +13,15 @@ import (
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
+	"gorm.io/gorm"
 )
 
 type AuthService struct {
 	oauthConfig *oauth2.Config
+	repo        *repository.UserRepository
 }
 
-func NewAuthService() *AuthService {
+func NewAuthService(db *gorm.DB) *AuthService {
 	return &AuthService{
 		oauthConfig: &oauth2.Config{
 			ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
@@ -29,6 +33,7 @@ func NewAuthService() *AuthService {
 			},
 			Endpoint: google.Endpoint,
 		},
+		repo: repository.NewUserRepository(db),
 	}
 }
 
@@ -52,7 +57,17 @@ func (s *AuthService) HandleGoogleCallback(ctx context.Context, code string) (ma
 	var userInfo map[string]interface{}
 	json.Unmarshal(body, &userInfo)
 
-	jwtToken, _ := util.GenerateJWT(userInfo["email"].(string))
+	// Persist or update user
+	user := &model.User{
+		Email:    userInfo["email"].(string),
+		Name:     userInfo["name"].(string),
+		Picture:  userInfo["picture"].(string),
+		Provider: "google",
+	}
+	s.repo.CreateOrUpdate(user)
+
+	// Generate JWT
+	jwtToken, _ := util.GenerateJWT(user.Email)
 
 	return userInfo, jwtToken, nil
 }
