@@ -1,103 +1,136 @@
-import Image from "next/image";
+"use client";
+import React, { useEffect, useState } from "react";
+
+type FileRecord = {
+  id: number;
+  public_id: string;
+  url: string;
+  filename: string;
+  bytes: number;
+  created_at: string;
+};
+
+const API = process.env.NEXT_PUBLIC_API_URI || "http://127.0.0.1:3500";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [file, setFile] = useState<File | null>(null);
+  const [uploads, setUploads] = useState<FileRecord[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    fetchUploads();
+  }, []);
+
+  async function fetchUploads() {
+    try {
+      const res = await fetch(`${API}/api/uploads`);
+      const j = await res.json();
+      if (j.success) setUploads(j.data || []);
+    } catch (err: any) {
+      console.error(err);
+    }
+  }
+
+  async function handleSubmit(e?: React.FormEvent) {
+    e?.preventDefault();
+    setError(null);
+    if (!file) {
+      setError("Please choose a file first");
+      return;
+    }
+
+    setLoading(true);
+    const fd = new FormData();
+    fd.append("file", file);
+
+    try {
+      const res = await fetch(`${API}/api/upload`, {
+        method: "POST",
+        body: fd,
+      });
+
+      const j = await res.json();
+      if (!res.ok) {
+        setError(j.message || j.error || "Upload failed");
+      } else {
+        // refresh uploads and clear file
+        await fetchUploads();
+        setFile(null);
+      }
+    } catch (err: any) {
+      setError(err.message || "Network error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div style={{ padding: 24, maxWidth: 900, margin: "0 auto" }}>
+      <h1>Upload to Cloudinary</h1>
+
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          gap: 12,
+          alignItems: "center",
+          marginTop: 16,
+        }}
+      >
+        <input
+          type="file"
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Uploading..." : "Upload"}
+        </button>
+      </form>
+
+      {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
+
+      <h2 style={{ marginTop: 24 }}>Uploaded</h2>
+      <div
+        style={{
+          display: "grid",
+          gap: 12,
+          gridTemplateColumns: "repeat(auto-fill, minmax(160px,1fr))",
+        }}
+      >
+        {uploads.length === 0 && <div>No uploads yet</div>}
+        {uploads.map((u, i) => (
+          <div
+            key={i}
+            style={{
+              padding: 8,
+              border: "1px solid #eee",
+              borderRadius: 8,
+              textAlign: "center",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <div style={{ fontSize: 14, color: "#555" }}>{u.filename}</div>
+            <a href={u.url} target="_blank" rel="noreferrer">
+              <img
+                src={u.url}
+                alt={u.filename}
+                style={{
+                  width: "100%",
+                  height: 120,
+                  objectFit: "cover",
+                  borderRadius: 6,
+                  marginTop: 8,
+                }}
+              />
+            </a>
+            <div style={{ fontSize: 12, color: "#777" }}>
+              {(u.bytes / 1024).toFixed(1)} KB
+            </div>
+            <div style={{ fontSize: 12, color: "#777" }}>
+              {new Date(u.created_at).toLocaleString()}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
