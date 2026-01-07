@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package inventory;
+option go_package = "github.com/yehezkiel1086/go-docs/go-grpc-order-inventory/protobuf/inventory";
+
+service InventoryService {
+  rpc CheckStock(CheckStockReq) returns (CheckStockRes);
+  rpc ReduceStock(ReduceStockReq) returns (ReduceStockRes);
+}
+
+message CheckStockReq {
+  int64 product_id = 1;
+}
+
+message CheckStockRes {
+  int64 product_id = 1;
+  int32 quantity = 2;
+}
+
+message ReduceStockReq {
+  int64 product_id = 1;
+  int32 quantity = 2;
+}
+
+message ReduceStockRes {
+  bool success = 1;
+}
