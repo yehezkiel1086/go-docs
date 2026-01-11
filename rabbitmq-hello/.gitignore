@@ -1,3 +1,2 @@
-rabbitmq_data/
 .env
-bin/
+rabbitmq_data/

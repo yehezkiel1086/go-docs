@@ -1,0 +1,23 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv:
+  - .env
+
+tasks:
+  compose:up:
+    desc: "run all docker containers"
+    cmd: docker compose up -d
+  
+  compose:down:
+    desc: "stop all docker containers"
+    cmd: docker compose down
+
+  dev:send:
+    desc: "run rabbitmq send"
+    cmd: go run send/main.go
+  
+  dev:receive:
+    desc: "run rabbitmq receive"
+    cmd: go run receive/main.go
