@@ -1,1 +1,0 @@
-Hello File! This is Golang writing.

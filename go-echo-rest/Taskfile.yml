@@ -1,0 +1,31 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv:
+  - .env
+
+tasks:
+  compose:up:
+    desc: "run docker containers"
+    cmd: docker compose up -d
+
+  compose:down:
+    desc: "stop docker containers"
+    cmd: docker compose down
+
+  db:cli:
+    desc: "access postgres db"
+    cmd: docker exec -it postgres psql -U {{ .DB_USER }} -b {{ DB_NAME }}
+  
+  db:gen:
+    desc: "generate sqlc code"
+    cmd: sqlc generate
+
+  db:seed:
+    desc: "seed database"
+    cmd: psql $(DB_URL) -f db/seeds/test_data.sql
+
+  dev:
+    desc: "run server in development mode"
+    cmd: air

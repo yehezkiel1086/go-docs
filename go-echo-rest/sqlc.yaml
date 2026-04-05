@@ -1,0 +1,13 @@
+version: "2"
+sql:
+  - schema: "db/schema/"
+    queries: "db/queries/"
+    engine: "postgresql"
+    gen:
+      go:
+        package: "gen"
+        out: "internal/adapter/storage/postgres/gen"
+        emit_json_tags: true
+        overrides:
+          - db_type: "timestamptz"
+            go_type: "time.Time"
