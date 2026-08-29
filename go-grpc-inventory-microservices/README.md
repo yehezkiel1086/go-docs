@@ -2,7 +2,7 @@
 
 A distributed inventory management system built with Go, featuring microservices architecture using **gRPC** for synchronous inter-service communication and **RabbitMQ** for asynchronous event-driven messaging.
 
-![Inventory Microservices High Level Diagram](/assets/high-level-diagram.png)
+![Inventory Microservices High Level Diagram](/go-grpc-inventory-microservices/assets/high-level-diagram.png)
 
 ## Architecture Overview
 
