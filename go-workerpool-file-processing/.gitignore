@@ -1,0 +1,5 @@
+# docker volumes
+postgres_data
+
+# dev
+.env
