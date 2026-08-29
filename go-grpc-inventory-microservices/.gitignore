@@ -1,0 +1,7 @@
+# dev
+.env
+
+# docker volumes
+postgres_data/
+rabbitmq_data/
+rabbitmq_log/

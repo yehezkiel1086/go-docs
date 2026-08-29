@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+option go_package = "github.com/yehezkiel1086/go-grpc-inventory-microservices";
+
+message Inventory {
+  uint64 id = 1;
+  uint64 product_id = 2;
+  int32 quantity = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+service InventoryService {
+  rpc GetInventory(GetInventoryRequest) returns (GetInventoryResponse);
+  rpc CreateInventory(CreateInventoryRequest) returns (CreateInventoryResponse);
+  rpc UpdateInventory(UpdateInventoryRequest) returns (UpdateInventoryResponse);
+  rpc DeleteInventory(DeleteInventoryRequest) returns (DeleteInventoryResponse);
+  rpc GetInventoryByProductID(GetInventoryByProductIDRequest) returns (GetInventoryByProductIDResponse);
+}
+
+message GetInventoryByProductIDRequest {
+  uint64 product_id = 1;
+}
+ 
+message GetInventoryByProductIDResponse {
+  Inventory inventory = 1;
+}
+
+message GetInventoryRequest {
+  uint64 id = 1;
+}
+
+message GetInventoryResponse {
+  Inventory inventory = 1;
+}
+
+message CreateInventoryRequest {
+  uint64 product_id = 1;
+  int32 quantity = 2;
+}
+
+message CreateInventoryResponse {
+  Inventory inventory = 1;
+}
+
+message UpdateInventoryRequest {
+  uint64 id = 1;
+  uint64 product_id = 2;
+  int32 quantity = 3;
+}
+
+message UpdateInventoryResponse {
+  Inventory inventory = 1;
+}
+
+message DeleteInventoryRequest {
+  uint64 id = 1;
+}
+
+message DeleteInventoryResponse {
+  bool success = 1;
+}
