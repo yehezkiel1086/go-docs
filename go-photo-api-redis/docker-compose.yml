@@ -1,0 +1,23 @@
+services:
+  # postgres:
+  #   image: postgres:17-alpine
+  #   restart: always
+  #   environment:
+  #     POSTGRES_DB: ${DB_NAME}
+  #     POSTGRES_USER: ${DB_USER}
+  #     POSTGRES_PASSWORD: ${DB_PASS}
+  #     PGDATA: /var/lib/postgresql/data
+  #   volumes:
+  #   - ./postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #   - '${DB_HOST}:${DB_PORT}:5432'
+  #   container_name: postgres
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASS}
+    ports:
+      - "${DB_HOST}:6379:6379"
+    volumes:
+      - ./redis_data:/data
+    container_name: redis
