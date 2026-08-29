@@ -1,0 +1,28 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv:
+  - .env
+
+tasks:
+  compose:up:
+    desc: "run docker compose services"
+    cmd: docker compose up -d
+  
+  compose:down:
+    desc: "stop docker compose services"
+    cmd: docker compose down
+  
+  db:cli:
+    desc: "access db docker compose cli"
+    cmd: docker exec -it postgres psql -U {{ .DB_USER }} -d {{ .DB_NAME }}
+  
+  redis:cli:
+    desc: "access redis docker compose cli"
+    cmd: docker exec -it redis redis-cli -a {{ .REDIS_PASSWORD }}
+
+  dev:
+    desc: "run backend api in dev mode"
+    cmd: air
+  
