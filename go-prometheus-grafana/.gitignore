@@ -1,0 +1,8 @@
+# dev
+.env
+tmp/
+
+# docker volumes
+postgres_data/
+prometheus_data/
+grafana_data/

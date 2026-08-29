@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: postgres
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - ./prometheus/alerts.yaml:/etc/prometheus/alerts.yaml
+      - ./prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    container_name: prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    container_name: grafana
+
+volumes:
+  postgres_data:
